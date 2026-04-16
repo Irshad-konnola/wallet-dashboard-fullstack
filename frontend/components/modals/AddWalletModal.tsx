@@ -12,10 +12,10 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
+// 1. Removed 'balance' from the validation schema
 const formSchema = z.object({
   name: z.string().min(1, "Wallet name is required"),
   currency: z.enum(["USD", "GBP", "EUR"]),
-  balance: z.string().optional(),
 });
 
 export function AddWalletModal({ children }: { children: React.ReactNode }) {
@@ -24,7 +24,7 @@ export function AddWalletModal({ children }: { children: React.ReactNode }) {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: { name: "", currency: "USD", balance: "" },
+    defaultValues: { name: "", currency: "USD" }, // Removed balance default
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -32,7 +32,7 @@ export function AddWalletModal({ children }: { children: React.ReactNode }) {
       {
         name: values.name,
         currency: values.currency,
-        balance: values.balance ? Number(values.balance) : 0,
+        balance: 0, // Hardcode to 0 for new wallets
       },
       {
         onSuccess: () => {
@@ -69,19 +69,7 @@ export function AddWalletModal({ children }: { children: React.ReactNode }) {
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="balance"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-text-muted">Initial Balance (Optional)</FormLabel>
-                  <FormControl>
-                    <Input type="number" placeholder="e.g. 5000" className="bg-input border-border" {...field} />
-                  </FormControl>
-                  <FormMessage className="text-destructive" />
-                </FormItem>
-              )}
-            />
+            {/* The entire Balance input field has been deleted from here */}
 
             <FormField
               control={form.control}
@@ -91,7 +79,7 @@ export function AddWalletModal({ children }: { children: React.ReactNode }) {
                   <FormLabel className="text-text-muted">Currency</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
-                      <SelectTrigger className="bg-input border-border">
+                      <SelectTrigger className="bg-input border-border text-foreground">
                         <SelectValue placeholder="Select currency" />
                       </SelectTrigger>
                     </FormControl>

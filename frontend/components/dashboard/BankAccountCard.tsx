@@ -30,7 +30,7 @@ export function BankAccountCard({ id, bankName, balance, currency, onDelete }: B
             e.stopPropagation(); 
             onDelete(id);
           }} 
-          className="h-4 w-4 text-text-muted hover:text-foreground opacity-0 group-hover:opacity-100 transition-opacity"
+          className="h-4 w-4 text-text-muted hover:text-foreground opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity"
         >
           <Trash2 className="h-4 w-4" />
         </Button>
