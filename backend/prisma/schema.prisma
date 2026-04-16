@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Wallet {
+  id           String        @id @default(cuid())
+  name         String
+  balance      Decimal       @default(0)
+  currency     String        @default("USD")
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  transactions Transaction[]
+}
+
+model BankAccount {
+  id            String   @id @default(cuid())
+  bankName      String
+  accountNumber String
+  balance       Decimal  @default(0)
+  currency      String   @default("USD")
+  createdAt     DateTime @default(now())
+}
+
+model Transaction {
+  id        String            @id @default(cuid())
+  walletId  String
+  wallet    Wallet            @relation(fields: [walletId], references: [id])
+  type      TransactionType
+  amount    Decimal
+  currency  String
+  status    TransactionStatus
+  note      String?
+  createdAt DateTime          @default(now())
+}
+
+enum TransactionType   { 
+  DEPOSIT 
+  WITHDRAWAL 
+}
+
+enum TransactionStatus { 
+  SUCCESS 
+  PENDING 
+  FAILED 
+}
