@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { Bar, BarChart, ResponsiveContainer, XAxis, Tooltip } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
@@ -26,11 +26,12 @@ export function WalletChart() {
           Showing your wallet balances over time
         </p>
       </CardHeader>
-      <CardContent className="flex-1 mt-4">
+      
+      <CardContent className="flex-1 mt-4 min-h-75 w-full">
         {isChartLoading ? (
           <Skeleton className="w-full h-full bg-border rounded-lg" />
         ) : (
-          <ResponsiveContainer width="100%" height="100%">
+          <ResponsiveContainer width="100%" height={300}>
             <BarChart
               data={displayData}
               margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
